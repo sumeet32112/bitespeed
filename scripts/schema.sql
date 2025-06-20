@@ -15,6 +15,6 @@ CREATE TABLE IF NOT EXISTS contact (
     FOREIGN KEY (linked_id) REFERENCES contact(id)
 );
 
--- 4. Indexes
+-- 3. Indexes
 CREATE INDEX IF NOT EXISTS idx_email ON contact(email);
 CREATE INDEX IF NOT EXISTS idx_phone ON contact(phone_number);
