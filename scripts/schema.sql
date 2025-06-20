@@ -1,22 +1,20 @@
 -- 1. Create database
-CREATE DATABASE IF NOT EXISTS bitespeed;
+CREATE DATABASE bitespeed;
 
--- 2. Use the database
-USE bitespeed;
-
--- 3. create contact table
-CREATE TABLE IF NOT EXISTS Contact (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+-- 2. Create contact table
+CREATE TABLE IF NOT EXISTS contact (
+    id BIGSERIAL PRIMARY KEY,
     phone_number VARCHAR(20),
     email VARCHAR(255),
     linked_id BIGINT,
-    link_precedence ENUM('primary', 'secondary') NOT NULL,
-    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    deleted_at DATETIME DEFAULT NULL,
+    link_precedence VARCHAR(10) CHECK (link_precedence IN ('primary', 'secondary')) NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    deleted_at TIMESTAMP DEFAULT NULL,
 
-    INDEX idx_email (email),
-    INDEX idx_phone (phone_number),
-
-    FOREIGN KEY (linked_id) REFERENCES Contact(id)
+    FOREIGN KEY (linked_id) REFERENCES contact(id)
 );
+
+-- 4. Indexes
+CREATE INDEX IF NOT EXISTS idx_email ON contact(email);
+CREATE INDEX IF NOT EXISTS idx_phone ON contact(phone_number);
